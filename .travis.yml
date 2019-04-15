@@ -1,0 +1,18 @@
+# Refference here: https://docs.travis-ci.com/user/job-lifecycle/
+
+language: node_js
+node_js:
+  - "10.13.0"
+cache: npm
+
+install:
+  true
+  # - npm install
+script: true
+after_success: true
+
+after_failure: false
+
+# deploy: true
+
+after_script: true

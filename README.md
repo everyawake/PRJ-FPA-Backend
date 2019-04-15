@@ -1,4 +1,5 @@
 # PRJ-PFA-Backend
+[![Build Status](https://travis-ci.com/everyawake/PRJ-FPA-Backend.svg?branch=master)](https://travis-ci.com/everyawake/PRJ-FPA-Backend)
 
 # To-Do
 
@@ -36,9 +37,9 @@
 
 ## Accessory
 
-- [ ] CI/CD: TravisCI will use
-- [ ] Email service: https://sendgrid.com/
+- [x] CI/CD: TravisCI will use
+- [x] Email service: https://sendgrid.com/
 
 # Setup
 
-1. need to sendgrid API key: [Check ref|https://app.sendgrid.com/guide/integrate/langs/nodejs]
+1. need to sendgrid API key: [Check ref](https://app.sendgrid.com/guide/integrate/langs/nodejs)

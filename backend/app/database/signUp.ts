@@ -24,7 +24,7 @@ const signUp = (params: {
           console.error("[ERR] signUp(): \n", err);
         }
 
-        resolve(JSON.parse(JSON.stringify(result))[0]);
+        resolve(JSON.parse(JSON.stringify(result))[0][0]);
       },
     );
   });

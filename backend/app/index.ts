@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // initialize routes
-app.use("/user", UserRouter);
+app.use("/users", UserRouter);
 
 app.get("/", (_req, res) => {
   res.send("hello world");

@@ -1,28 +1,23 @@
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 
-const sendUserConfirmationEmail = (to: string) => {
-  const smtpTransport = nodemailer.createTransport({
-    host: "fpa.org",
-    auth: {
-      user: "no-reply@fpa.org",
-      pass: "123123123",
-    },
-  });
+if (!process.env.SENDGRID_API_KEY) {
+  throw new Error("Should set Sendgrid API key!!");
+}
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  const mailOptions = {
-    from: "no-reply@fpa.org",
+const sendUserConfirmationEmail = async (to: string) => {
+  const msg = {
     to,
+    from: "no-reply@fpa.org",
     subject: "Welcome to FPA!, plz confirm your email!!",
     html: "<h2>Welcome to Hello world!!</h2>",
   };
 
-  smtpTransport.sendMail(mailOptions, (err, info) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Email send: ", info.response);
-    }
-  });
+  try {
+    await sgMail.send(msg);
+  } catch (err) {
+    console.error("[ERR] FAILED to MAIL SEND", err);
+  }
 };
 
 export { sendUserConfirmationEmail };

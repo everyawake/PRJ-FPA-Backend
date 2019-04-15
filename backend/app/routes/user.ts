@@ -3,6 +3,7 @@
 import express from "express";
 import { check, validationResult } from "express-validator/check";
 import signUp from "../database/signUp";
+import { sendUserConfirmationEmail } from "../helpers/emailHelper";
 
 const router = express.Router();
 
@@ -14,7 +15,7 @@ router.get("/:username", (req, res) => {
 });
 
 router.post(
-  "/",
+  "/signup",
   [
     check("id").exists(),
     check("username").exists(),
@@ -30,12 +31,10 @@ router.post(
     }
 
     const result = await signUp(req.body);
+
     switch (result.result) {
       case 200: {
-        // currently not using feature.
-        // cuz we don't have any useful no-reply mail provider.
-        // sendUserConfirmationEmail(req.body.email);
-
+        sendUserConfirmationEmail(req.body.email);
         return res.status(201).json(result);
       }
 

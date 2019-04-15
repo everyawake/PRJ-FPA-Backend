@@ -6,7 +6,7 @@ export default class MysqlBase {
   public static getInstance() {
     if (this.instance === null) {
       this.instance = createConnection({
-        host: "192.168.142.130",
+        host: "192.168.64.129", // change when vm changed
         user: "root",
         database: "fpa",
         password: "lee940401",

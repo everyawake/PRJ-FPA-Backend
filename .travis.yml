@@ -8,4 +8,11 @@ cache: npm
 install:
   true
   # - npm install
-# script: true
+script: true
+after_success: true
+
+after_failure: false
+
+# deploy: true
+
+after_script: true

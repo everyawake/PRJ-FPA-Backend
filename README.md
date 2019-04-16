@@ -43,3 +43,6 @@
 # Setup
 
 1. need to sendgrid API key: [Check ref](https://app.sendgrid.com/guide/integrate/langs/nodejs)
+2. need AWS .env
+
+

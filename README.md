@@ -1,7 +1,10 @@
 # PRJ-PFA-Backend
+
 [![Build Status](https://travis-ci.com/everyawake/PRJ-FPA-Backend.svg?branch=master)](https://travis-ci.com/everyawake/PRJ-FPA-Backend)
 
 # To-Do
+
+: EveryAwake!!
 
 ## APIs
 
@@ -44,5 +47,3 @@
 
 1. need to sendgrid API key: [Check ref](https://app.sendgrid.com/guide/integrate/langs/nodejs)
 2. need AWS .env
-
-

@@ -4,7 +4,7 @@
 
 # To-Do
 
-: EveryAwake!!
+: EveryAwake!! with Slack
 
 ## APIs
 

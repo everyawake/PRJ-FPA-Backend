@@ -37,7 +37,7 @@
 
 ## Accessory
 
-- [x] CI/CD: TravisCI will use
+- [x] CI/CD: TravisCI
 - [x] Email service: https://sendgrid.com/
 
 # Setup

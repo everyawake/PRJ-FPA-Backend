@@ -1,7 +1,7 @@
 import signUp from "../signUp";
 import MysqlBase from "../mysqlBase";
 
-describe("signUp()", () => {
+describe.skip("signUp()", () => {
   it("test", async () => {
     MysqlBase.getInstance().query("delete from user_info where id='test02'");
     const result = await signUp({

@@ -3,7 +3,7 @@
 import express from "express";
 import { check, validationResult } from "express-validator/check";
 import signUp from "../database/signUp";
-import { sendUserConfirmationEmail } from "../helpers/emailHelper";
+import { sendUserConfirmationEmail } from "../helpers/email/emailHelper";
 
 const router = express.Router();
 

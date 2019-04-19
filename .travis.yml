@@ -10,7 +10,15 @@ install:
 
 script:
   - npm test
-  - if ["$TRAVIS_BRANCH" = "master"]; then npm run pre-deploy && npm run deploy fi
+
+deploy:
+  - provider: script
+    skip_cleanup: true
+    script:
+      - npm run pre-deploy
+      - npm run deploy
+    on:
+      branch: master
   # - provider: codedeploy
   #   access_key_id: $AWS_ACCESS_KEY
   #   secret_access_key: $AWS_SECRET_KEY

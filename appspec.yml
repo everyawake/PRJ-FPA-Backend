@@ -3,8 +3,3 @@ os: linux
 files:
   - source: /
     destination: /home/ubuntu/app/build
-hooks:
-  BeforeInstall:
-    - location: "cd /home/ubuntu/app/build && npm i"
-    timeout: 3600
-    runas: root

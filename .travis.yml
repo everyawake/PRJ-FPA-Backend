@@ -12,7 +12,7 @@ script:
   - npm test
 
 before_deploy:
-  - zip -x */.node_modules -r fpa-backend *
+  - zip -x */node_modules/* -r fpa-backend *
   - mkdir -p deploy
   - ls -al
   - mv fpa-backend.zip deploy/fpa-backend.zip

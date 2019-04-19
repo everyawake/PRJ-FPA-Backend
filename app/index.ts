@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import compression from "compression";
 
 import UserRouter from "./routes/user";
 
@@ -9,6 +10,7 @@ const app = express();
 // initialize express third module
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(compression());
 
 // initialize routes
 app.use("/users", UserRouter);

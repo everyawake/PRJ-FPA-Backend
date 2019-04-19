@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "pre-deploy": "zip -x node_modules/* -r fpa-backend * && mkdir -p deploy && mv fpa-backend.zip deploy/fpa-backend.zip",
-    "deploy": "node ./scripts/deploy.js",
-    "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts"
+    "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts",
+    "start": "ts-node --transpileOnly app/index.ts",
+    "production": "export NODE_ENV=production && production"
   },
   "author": "GenesisSam",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.3.1",
     "body-parser": "^1.18.3",
+    "compression": "^1.7.4",
     "express": "^4.16.4",
     "express-validator": "^5.3.1",
     "jsonwebtoken": "^8.5.1",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
+    "@types/compression": "0.0.36",
     "@types/express": "^4.16.1",
     "@types/express-validator": "^3.0.0",
     "@types/jest": "^24.0.11",

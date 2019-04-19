@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts",
-    "start": "pm2 start --exec 'ts-node' -- -T app/index.ts",
+    "start": "pm2 start app/index.ts",
     "production": "export NODE_ENV=production && npm start"
   },
   "author": "GenesisSam",
@@ -21,6 +21,7 @@
     "lodash": "^4.17.11",
     "mysql2": "^1.6.5",
     "nodemon": "^1.18.10",
+    "pm2": "^3.5.0",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.4000"
   },

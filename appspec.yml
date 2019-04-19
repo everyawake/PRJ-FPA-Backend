@@ -9,6 +9,5 @@ hooks:
     - location: npm i
       runas: root
   ApplicationStart:
-    - location: cd /home/ubuntu/app/build
     - location: npm run production
     runas: root

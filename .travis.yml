@@ -14,6 +14,22 @@ after_success: true
 
 after_failure: false
 
-# deploy: test
+before_deploy:
+  - zip -r fpa-backend *
+  - mkdir -p deploy
+  - mv fpa-backend.zip deploy/fpa-backend.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: fpa-production-deploy
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    local_dir: deploy
+    on:
+      repo: everyawake/PRJ-FPA-Backend
+      branch: master
 
 after_script: true

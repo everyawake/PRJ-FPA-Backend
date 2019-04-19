@@ -37,7 +37,7 @@ deploy:
     bundle_type: zip
     application: fpa-deploy
     deployment_group: fpa-backend-deploy
-    region: us-east-1
+    region: us-east-2
     wait-until-deployed: true
     on:
       repo: everyawake/PRJ-FPA-Backend

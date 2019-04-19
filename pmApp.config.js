@@ -6,7 +6,8 @@ module.exports = {
     ignore_watch: ["node_modules", "sqls"],
     env: {
       production: true,
-      "NODE_ENV": true,
+      PORT: 80,
+      "NODE_ENV": "production",
       "SENDGRID_API_KEY": process.env.SENDGRID_API_KEY,
       "MYSQL_ADDR": process.env.MYSQL_ADDR,
       "MYSQL_USER": process.env.MYSQL_USER,

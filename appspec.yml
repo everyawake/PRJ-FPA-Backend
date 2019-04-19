@@ -5,8 +5,8 @@ files:
     destination: /home/ubuntu/app/build
 hooks:
   BeforeInstall:
-    - location: cd /home/ubuntu/app/build && npm i
-      runas: root
+    - location: "cd /home/ubuntu/app/build && npm i"
+    runas: root
   ApplicationStart:
-    - location: npm run production
+    - location: "npm run production"
     runas: root

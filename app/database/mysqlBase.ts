@@ -1,4 +1,4 @@
-import { createConnection, Connection } from "mysql2";
+import { createConnection } from "mysql2";
 
 const ADDR = process.env.MYSQL_ADDR
   ? process.env.MYSQL_ADDR.replace("\r", "")
@@ -11,19 +11,12 @@ const PWD = process.env.MYSQL_PWD
   : "";
 
 export default class MysqlBase {
-  private static instance: Connection | null = null;
-
   public static getInstance() {
-    if (this.instance === null) {
-      this.instance = createConnection({
-        host: ADDR,
-        user: USER,
-        password: PWD,
-        database: "fpadb",
-      });
-      return this.instance;
-    } else {
-      return this.instance;
-    }
+    return createConnection({
+      host: ADDR,
+      user: USER,
+      password: PWD,
+      database: "fpadb",
+    });
   }
 }

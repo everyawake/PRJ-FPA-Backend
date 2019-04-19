@@ -6,13 +6,41 @@ node_js:
 cache: npm
 
 install:
-  true
-  # - npm install
-script: true
-after_success: true
+  - npm install
 
-after_failure: false
+script:
+  - npm test
 
-# deploy: true
+before_deploy:
+  - zip -r fpa-backend *
+  - mkdir -p deploy
+  - mv fpa-backend.zip deploy/fpa-backend.zip
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: fpa-production-deploy
+    skip_cleanup: true
+    acl: public_read
+    wait-until-deployed: true
+    local_dir: deploy
+    on:
+      repo: everyawake/PRJ-FPA-Backend
+      branch: master
+
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: fpa-production-deploy
+    key: fpa-backend.zip
+    bundle_type: zip
+    application: fpa-deploy
+    deployment_group: fpa-backend-deploy
+    region: us-east-2
+    wait-until-deployed: true
+    on:
+      repo: everyawake/PRJ-FPA-Backend
+      branch: master
 
 after_script: true

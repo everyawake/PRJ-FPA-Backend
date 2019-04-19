@@ -1,8 +1,10 @@
+use fpadb;
+
 # user table
 create table user_info(
-  id nvarchar(20) primary key,
-  email nvarchar(320),
-  username nvarchar(30),
+  id varchar(20) primary key,
+  email varchar(320),
+  username varchar(30),
   password varchar(64) not null,# sha256 + some
   confirmed boolean default false,
   device_uuid text, # use mac address
@@ -11,7 +13,7 @@ create table user_info(
 );
 
 create table user_otp (
-  user nvarchar(20) primary key,
+  user varchar(20) primary key,
   code varchar(4),
 
   constraint `fk_user_otp_user` foreign key (user) references user_info(id)
@@ -19,8 +21,8 @@ create table user_otp (
 
 create table login_log (
   idx int auto_increment primary key,
-  user nvarchar(20),
-  last_login_ip nvarchar(100), # ipv4 ipv6
+  user varchar(20),
+  last_login_ip varchar(100), # ipv4 ipv6
   issued_timestamp timestamp default CURRENT_TIMESTAMP,
 
   constraint `fk_login_log_user` foreign key (user) references user_info(id)
@@ -29,9 +31,9 @@ create table login_log (
 create table provider(
   secret_key varchar(300),
   public_key varchar(300),
-  name nvarchar(100) not null,
+  name varchar(100) not null,
   site_url text,
-  owner nvarchar(20),
+  owner varchar(20),
 
   index(public_key),
   constraint `pk_provider` primary key (secret_key),
@@ -40,7 +42,7 @@ create table provider(
 
 create table provide_token(
   target_service varchar(300),
-  user nvarchar(20),
+  user varchar(20),
   token text,
   issued_date timestamp default CURRENT_TIMESTAMP,
   delete_flag boolean default false,

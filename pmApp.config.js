@@ -1,6 +1,6 @@
 module.exports = {
   apps: [{
-    name: "fpa-backend",
+    name: "fpa",
     script: "app/index.ts",
     watch: true,
     ignore_watch: ["node_modules", "sqls"],

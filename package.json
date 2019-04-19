@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts",
     "start": "pm2 start app/index.ts",
-    "production": "export NODE_ENV=production && npm start"
+    "production": "export PORT=80 && export NODE_ENV=production && npm start"
   },
   "author": "GenesisSam",
   "license": "ISC",

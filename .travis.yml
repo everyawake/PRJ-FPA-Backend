@@ -11,13 +11,13 @@ install:
 script:
   - npm test
 
-before_deploy:
-  - zip -x */node_modules/* -r fpa-backend *
-  - mkdir -p deploy
-  - ls -al
-  - mv fpa-backend.zip deploy/fpa-backend.zip
-  - ls -al
-  - ls -al deploy
+# before_deploy:
+#   - zip -x node_modules/* -r fpa-backend *
+#   - mkdir -p deploy
+#   - ls -al
+#   - mv fpa-backend.zip deploy/fpa-backend.zip
+#   - ls -al
+#   - ls -al deploy
 
 deploy:
   - provider: s3
@@ -26,7 +26,6 @@ deploy:
     bucket: fpa-production-deploy
     acl: public_read
     wait-until-deployed: true
-    local_dir: deploy
     region: us-east-2
     skip_cleanup: true
     on:

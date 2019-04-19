@@ -10,9 +10,6 @@ install:
 
 script:
   - npm test
-after_success: true
-
-after_failure: false
 
 before_deploy:
   - zip -r fpa-backend *

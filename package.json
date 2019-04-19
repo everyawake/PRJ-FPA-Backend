@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "pre-deploy": "zip -x node_modules/* -r fpa-backend * && mkdir -p deploy && mv fpa-backend.zip deploy/fpa-backend.zip",
+    "deploy": "node ./scripts/deploy.js",
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts"
   },
   "author": "GenesisSam",
@@ -30,6 +32,7 @@
     "@types/lodash": "^4.14.123",
     "@types/mysql2": "github:types/npm-mysql2",
     "@types/node": "^11.11.6",
+    "aws-sdk": "^2.441.0",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0"
   },

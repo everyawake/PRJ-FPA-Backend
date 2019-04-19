@@ -29,4 +29,18 @@ deploy:
       repo: everyawake/PRJ-FPA-Backend
       branch: master
 
+  - provider: codedeploy
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: fpa-production-deploy
+    key: fpa-backend.zip
+    bundle_type: zip
+    application: fpa-deploy
+    deployment_group: fpa-backend-deploy
+    region: us-east-2
+    wait-until-deployed: true
+    on:
+      repo: everyawake/PRJ-FPA-Backend
+      branch: master
+
 after_script: true

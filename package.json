@@ -32,7 +32,6 @@
     "@types/lodash": "^4.14.123",
     "@types/mysql2": "github:types/npm-mysql2",
     "@types/node": "^11.11.6",
-    "aws-sdk": "^2.441.0",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0"
   },

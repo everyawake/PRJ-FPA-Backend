@@ -6,9 +6,10 @@ node_js:
 cache: npm
 
 install:
-  true
-  # - npm install
-script: true
+  - npm install
+
+script:
+  - npm test
 after_success: true
 
 after_failure: false

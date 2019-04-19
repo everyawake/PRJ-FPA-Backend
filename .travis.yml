@@ -16,6 +16,8 @@ before_deploy:
   - mkdir -p deploy
   - ls -al
   - mv fpa-backend.zip deploy/fpa-backend.zip
+  - ls -al
+  - ls -al deploy
 
 deploy:
   - provider: s3
@@ -26,6 +28,7 @@ deploy:
     wait-until-deployed: true
     local_dir: deploy
     region: us-east-2
+    skip_cleanup: true
     on:
       repo: everyawake/PRJ-FPA-Backend
       branch: master

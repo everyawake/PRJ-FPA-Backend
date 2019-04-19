@@ -14,6 +14,12 @@ after_success: true
 
 after_failure: false
 
-# deploy: true
+deploy:
+  - provider: CodeDeployServiceRole
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
+  application: fpa_backend
+  deployment_group: fpa_backend
+  region: ap-northeast-2
 
 after_script: true

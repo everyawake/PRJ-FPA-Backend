@@ -3,7 +3,7 @@ import sgMail from "@sendgrid/mail";
 if (!process.env.SENDGRID_API_KEY) {
   throw new Error("Should set Sendgrid API key!!");
 }
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY.replace("\r", ""));
 
 const sendUserConfirmationEmail = async (to: string) => {
   const msg = {

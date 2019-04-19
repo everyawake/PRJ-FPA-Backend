@@ -11,6 +11,8 @@
 ### User
 
 - [x] Member Sign up
+- [ ] Email valid issue
+- [ ] Email valid check
 - [ ] Sign In
 - [ ] Reset password
 - [ ] Find user id

@@ -104,7 +104,7 @@ const welcomeMailHTML = (username: string) => {
   <div class="body-title">${username}님의 가입을 FPA는 진심으로 환용합니다!</div>
   <div class="body-span">이제, FPA를 통해서 어디서든 안전하고 편리하게 로그인해보세요!</div>
 
-  <img src="https://t1.daumcdn.net/cfile/tistory/250A604058ACA09E02" width="80%" height="500px"/>
+  <img src="https://t1.daumcdn.net/cfile/tistory/250A604058ACA09E02" width="100%" height="500px"/>
   `;
   return generateEmail("FPA에 참여하신걸 환영합니다!", content);
 };

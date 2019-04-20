@@ -11,6 +11,14 @@ install:
 script:
   - npm test
 
+notifications:
+  slack:
+    rooms:
+	    - everyawake:AI8aX9YtvJ0G92adeuClf8vr#st-backend-alert
+      on_pull_requests: false
+      on_success: change # default: change
+      on_failure: always # default: always
+
 before_deploy:
   - zip -x node_modules/\* -r fpa-backend *
   - mkdir -p deploy

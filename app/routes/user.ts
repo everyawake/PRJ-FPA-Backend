@@ -3,7 +3,10 @@
 import express from "express";
 import { check, validationResult } from "express-validator/check";
 import signUp from "../database/signUp";
-import { sendUserConfirmationEmail } from "../helpers/email/emailHelper";
+import {
+  sendUserConfirmationEmail,
+  sendWelcomeMail,
+} from "../helpers/email/emailHelper";
 
 const router = express.Router();
 
@@ -35,6 +38,7 @@ router.post(
     switch (result.result) {
       case 200: {
         sendUserConfirmationEmail(req.body.email);
+        sendWelcomeMail(req.body.email, req.body.username);
         return res.status(201).json(result);
       }
 

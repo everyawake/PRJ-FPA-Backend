@@ -106,7 +106,7 @@ const welcomeMailHTML = (username: string) => {
 
   <img src="https://t1.daumcdn.net/cfile/tistory/250A604058ACA09E02" width="80%" height="500px"/>
   `;
-  return generateEmail("FPA에 참여하신걸 축합드립니다!", content);
+  return generateEmail("FPA에 참여하신걸 환영합니다!", content);
 };
 
 async function mailSend(msg: {

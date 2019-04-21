@@ -7,6 +7,13 @@ import { sendWelcomeMail } from "../helpers/email/emailHelper";
 
 const router = express.Router();
 
+router.get("/:username/hello", (req, res) => {
+  const username = req.params.username;
+  res.json({
+    username: `Hello! nice to meet U!, ${username} :)`,
+  });
+});
+
 router.get("/:username", (req, res) => {
   const username = req.params.username;
   res.json({

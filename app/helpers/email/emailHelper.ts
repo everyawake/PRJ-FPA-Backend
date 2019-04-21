@@ -92,7 +92,7 @@ function generateEmail(title: string, body: string) {
         </div>
 
         <div class="footer">
-          ©everyAwake 2019,<a href="http://github.com/genesissam">Contact Us</a>
+          ©everyAwake 2019,<a href="http://github.com/everyawake">Contact Us</a>
         </div>
       </div>
     </body>

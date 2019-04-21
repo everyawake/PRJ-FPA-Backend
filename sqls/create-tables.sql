@@ -1,5 +1,12 @@
 use fpadb;
 
+create table privilige_role (
+  role_id int primary key,
+  role_name varchar(25) not null
+  );
+
+insert  into privilige_role(role_id, role_name) values(9999, "normal"), (3000, "third-party developer"), (1, "fpa admin");
+
 # user table
 create table user_info(
   id varchar(20) primary key,

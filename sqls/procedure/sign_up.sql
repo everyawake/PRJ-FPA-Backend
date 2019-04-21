@@ -19,8 +19,7 @@ create procedure `sign_up`(
   elseif exists(select id from user_info where id = in_id) then
     set result = 101;
   else
-    insert into user_info(id, email, username, password, device_uuid, fcm_token)
-     value(in_id, in_email, in_username, SHA2(in_password, 256), in_device_uuid, in_fcm_token);
+    	insert into user_info(id, email, username, password, device_uuid, fcm_token, `role`) value(in_id, in_email, in_username, SHA2(in_password, 256), in_device_uuid, in_fcm_token, 9999);
     set result = 200;
   end if;
 

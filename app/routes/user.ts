@@ -2,7 +2,7 @@
 
 import express from "express";
 import { check, validationResult } from "express-validator/check";
-import signUp from "../database/signUp";
+import { signUp, signIn } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
 
 const router = express.Router();
@@ -43,6 +43,32 @@ router.post(
       case 200: {
         sendWelcomeMail(req.body.email, req.body.username);
         return res.status(201).json(result);
+      }
+
+      default: {
+        return res.status(422).json(result);
+      }
+    }
+  },
+);
+
+router.post(
+  "/signin",
+  [
+    check("id").exists(),
+    check("password").isLength({ min: 4, max: 20 })
+  ],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const result = await signIn(req.body);
+
+    switch (result.result) {
+      case 200: {
+        return res.status(200).json(result);
       }
 
       default: {

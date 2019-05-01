@@ -1,4 +1,5 @@
-# PRJ-PFA-Backend
+# PRJ-FPA-Backend
+FPA(FreePath Authenticator)
 
 [![Build Status](https://travis-ci.com/everyawake/PRJ-FPA-Backend.svg?branch=master)](https://travis-ci.com/everyawake/PRJ-FPA-Backend)
 

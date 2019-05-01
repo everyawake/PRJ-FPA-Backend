@@ -2,7 +2,7 @@
 
 import express from "express";
 import { check, validationResult } from "express-validator/check";
-import { signUp, signIn } from "../database/index";
+import { signUp, signIn } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
 
 const router = express.Router();

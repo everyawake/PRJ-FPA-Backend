@@ -21,7 +21,7 @@ FPA(FreePath Authenticator)
 - [ ] Change finger print
 - [ ] Update user info(Device id, Finger print, developer mode, admin mode, etc)
 - [ ] Email confirm
-- [ ] Generate new OTP
+- [ ] Generate new OTID
 - [ ] disconnect to Third-part app/web
 
 ### FPA

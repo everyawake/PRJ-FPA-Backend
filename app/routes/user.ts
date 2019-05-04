@@ -42,8 +42,20 @@ router.post(
 
     switch (result.result) {
       case 200: {
-        sendWelcomeMail(req.body.email, req.body.username);
-        return res.status(201).json(result);
+        const { id, email, username, device_uuid, fcm_token } = req.body;
+        sendWelcomeMail(email, username);
+        const newToken = fpaTokenSign({
+          id,
+          email,
+          username,
+          device_uuid,
+          role: 9999,
+          fcm_token,
+          confirmed: false,
+        });
+        return res.status(201).json({
+          token: newToken,
+        });
       }
 
       default: {
@@ -69,9 +81,10 @@ router.post(
       case 200: {
         const newObject = { ...result } as UserRouter.ISignInReturnParams;
         delete newObject.result;
-        const token = fpaTokenSign(newObject);
+        const newToken = fpaTokenSign(newObject);
         return res.status(200).json({
-          token,
+          token: newToken,
+          data: newObject,
         });
       }
 

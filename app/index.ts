@@ -3,8 +3,7 @@ import bodyParser from "body-parser";
 import compression from "compression";
 
 import UserRouter from "./routes/user";
-
-import fpaTokenAuthenticator from "./helpers/fpaTokenMiddleware";
+import AuthRouter from "./routes/auth";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -16,13 +15,7 @@ app.use(compression());
 
 // initialize routes
 app.use("/users", UserRouter);
-
-app.post("/auth", fpaTokenAuthenticator, (req, res) => {
-  console.log("!!!!");
-  res.status(200).json({
-    result: req.params,
-  });
-});
+app.use("/auth", AuthRouter);
 
 app.get("/", (_req, res) => {
   res.send("hello world");

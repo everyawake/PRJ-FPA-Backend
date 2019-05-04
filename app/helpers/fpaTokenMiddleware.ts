@@ -20,12 +20,14 @@ const fpaTokenAuthenticator = (
   }
 
   try {
-    const verifiedTokenData = jwt.verify(userToken, SIGN_KEY);
+    const verifiedTokenData = jwt.verify(userToken, SIGN_KEY) as any;
+
     req.body.userTokenData = verifiedTokenData;
     next();
   } catch (err) {
     res.status(400).json({
       result: "Invalid token",
+      error: err,
     });
     return;
   }

@@ -54,17 +54,15 @@ router.post(
 
 router.post(
   "/signin",
-  [
-    check("id").exists(),
-    check("password").isLength({ min: 4, max: 20 })
-  ],
+  [check("id").exists(), check("password").isLength({ min: 4, max: 20 })],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+    const ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
 
-    const result = await signIn(req.body);
+    const result = await signIn({ ...req.body, ip });
 
     switch (result.result) {
       case 200: {

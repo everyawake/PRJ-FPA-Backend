@@ -1,10 +1,10 @@
 module.exports = {
   apps: [{
     name: "fpa",
+    args: "--files",
     script: "app/index.ts",
     watch: true,
     ignore_watch: ["node_modules", "sqls"],
-    interpreter_args: "--files",
     env: {
       production: true,
       PORT: 80,
@@ -13,6 +13,7 @@ module.exports = {
       "MYSQL_ADDR": process.env.MYSQL_ADDR,
       "MYSQL_USER": process.env.MYSQL_USER,
       "MYSQL_PWD": process.env.MYSQL_PWD,
+      "FPA_SIGN_KEY": process.env.FPA_SIGN_KEY
     },
   }]
 }

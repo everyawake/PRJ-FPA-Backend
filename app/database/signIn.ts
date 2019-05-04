@@ -3,17 +3,14 @@ import MysqlBase from "./mysqlBase";
 // # 100: email already exists
 // # 101: id already exists
 // # 200 : OK
-const signIn = (params: {
-  id: string;
-  password: string;
-}) => {
+const signIn = (params: { id: string; password: string; ip: string }) => {
   return new Promise<{ result: number }>(resolve => {
     const mysqlConn = MysqlBase.getInstance();
-    const { id, password } = params;
+    const { id, password, ip } = params;
 
     mysqlConn.query(
-      "call sign_in(?,?);",
-      [id, password],
+      "call sign_in(?,?,?);",
+      [id, password, ip],
       (err, result) => {
         if (err) {
           resolve({ result: -1 });

@@ -1,8 +1,8 @@
 module.exports = {
   apps: [{
     name: "fpa",
-    args: "--files",
-    script: "app/index.ts",
+    script: "ts-node",
+    args: "--files app/index.ts",
     watch: true,
     ignore_watch: ["node_modules", "sqls"],
     env: {

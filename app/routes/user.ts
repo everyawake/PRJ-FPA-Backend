@@ -4,6 +4,7 @@ import express from "express";
 import { check, validationResult } from "express-validator/check";
 import { signUp, signIn } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
+import { fpaTokenSign } from "../helpers/fpaTokenMiddleware";
 
 const router = express.Router();
 
@@ -41,8 +42,20 @@ router.post(
 
     switch (result.result) {
       case 200: {
-        sendWelcomeMail(req.body.email, req.body.username);
-        return res.status(201).json(result);
+        const { id, email, username, device_uuid, fcm_token } = req.body;
+        sendWelcomeMail(email, username);
+        const newToken = fpaTokenSign({
+          id,
+          email,
+          username,
+          device_uuid,
+          role: 9999,
+          fcm_token,
+          confirmed: false,
+        });
+        return res.status(201).json({
+          token: newToken,
+        });
       }
 
       default: {
@@ -66,7 +79,13 @@ router.post(
 
     switch (result.result) {
       case 200: {
-        return res.status(200).json(result);
+        const newObject = { ...result } as UserRouter.ISignInReturnParams;
+        delete newObject.result;
+        const newToken = fpaTokenSign(newObject);
+        return res.status(200).json({
+          token: newToken,
+          data: newObject,
+        });
       }
 
       default: {

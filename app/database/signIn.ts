@@ -4,7 +4,9 @@ import MysqlBase from "./mysqlBase";
 // # 101: id already exists
 // # 200 : OK
 const signIn = (params: { id: string; password: string; ip: string }) => {
-  return new Promise<{ result: number }>(resolve => {
+  return new Promise<
+    { result: number } | { result: UserRouter.ISignInReturnParams }
+  >(resolve => {
     const mysqlConn = MysqlBase.getInstance();
     const { id, password, ip } = params;
 

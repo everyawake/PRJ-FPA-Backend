@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node' app/index.ts",
+    "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node --files' app/index.ts",
     "pre-production": "pm2 install typescript",
     "start": "pm2 start pmApp.config.js",
     "production": "npm run pre-production && npm start"

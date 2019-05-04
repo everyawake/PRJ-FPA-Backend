@@ -4,6 +4,7 @@ module.exports = {
     script: "app/index.ts",
     watch: true,
     ignore_watch: ["node_modules", "sqls"],
+    interpreter_args: "--files",
     env: {
       production: true,
       PORT: 80,

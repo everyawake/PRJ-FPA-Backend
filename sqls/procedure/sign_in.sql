@@ -21,7 +21,7 @@ create procedure `sign_in`(
     set result = 400;
   else
     set result = 200;
-    select id, email, username, result as "result" from user_info where id = in_id;
+    select id, email, username, device_uuid, role, fcm_token, confirmed, result as "result" from user_info where id = in_id;
   end if;
 
   select result as "result";

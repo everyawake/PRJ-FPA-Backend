@@ -4,6 +4,7 @@ import express from "express";
 import { check, validationResult } from "express-validator/check";
 import { signUp, signIn } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
+import { fpaTokenSign } from "../helpers/fpaTokenMiddleware";
 
 const router = express.Router();
 
@@ -66,7 +67,12 @@ router.post(
 
     switch (result.result) {
       case 200: {
-        return res.status(200).json(result);
+        const newObject = { ...result } as UserRouter.ISignInReturnParams;
+        delete newObject.result;
+        const token = fpaTokenSign(newObject);
+        return res.status(200).json({
+          token,
+        });
       }
 
       default: {

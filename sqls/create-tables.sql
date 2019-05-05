@@ -55,10 +55,10 @@ create table provide_token(
 
 
 create table user_otid (
-	otid varchar(14),
-    user varchar(20),
-    expiredAt int,
+  otid varchar(14),
+  user varchar(20),
+  expiredAt int,
 
-    constraint `pk_otid` primary key(otid, user),
-    constraint `fk_user_otid` foreign key (user) references user_info(id)
+  constraint `pk_otid` primary key(otid, user),
+  constraint `fk_user_otid` foreign key (user) references user_info(id)
 );

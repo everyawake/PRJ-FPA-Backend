@@ -11,7 +11,7 @@ const emailTokenAuthenticator = (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const emailToken = req.param("token");
+  const emailToken = req.params.token;
   if (!emailToken) {
     res.status(400).json({
       result: "Need token",

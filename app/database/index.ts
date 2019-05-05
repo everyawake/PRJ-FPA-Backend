@@ -7,6 +7,7 @@ import {
 } from "./myInformation";
 import { generateOTID, getUserIdByOTID } from "./otid";
 import { addThirdApp, regeneratePublicKey } from "./thirdParty";
+import emailConfirm from "./emailConfirm"
 
 export {
   signUp,
@@ -18,4 +19,5 @@ export {
   getUserIdByOTID,
   addThirdApp,
   regeneratePublicKey,
+  emailConfirm,
 };

@@ -51,7 +51,8 @@ router.post(
     switch (result.result) {
       case 200: {
         const { id, email, username, device_uuid, fcm_token } = req.body;
-        sendWelcomeMail(email, username);
+        sendWelcomeMail({to: email, username, id});
+
         const newToken = fpaTokenSign({
           id,
           email,

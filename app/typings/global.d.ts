@@ -8,3 +8,9 @@ interface ITokenData {
   confirmed: boolean;
   fingerauth_enable: boolean;
 }
+
+interface IEmailTokenData {
+  email: string;
+  username: string;
+  id: string;
+}

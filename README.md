@@ -13,16 +13,14 @@ FPA(FreePath Authenticator)
 ### User
 
 - [x] Member Sign up
-- [ ] Email valid issue
-- [ ] Email valid check
+- [ ] Email Confirm issue
+- [ ] Email Confirm check
 - [x] Sign In
-- [ ] Reset password
-- [ ] Find user id
-- [ ] Registry of finger print
-- [ ] Change finger print
-- [ ] Update user info(Device id, Finger print, developer mode, admin mode, etc)
-- [ ] Email confirm
+- [ ] Reset password(이메일 관련 작업 필요)
+- [x] Change finger print
+- [ ] Update user info(Device id, developer mode, admin mode, etc)
 - [ ] Generate new OTID
+- [ ] Find user id(OTID 로 회원정보를 찾음)
 - [ ] disconnect to Third-part app/web
 
 ### FPA

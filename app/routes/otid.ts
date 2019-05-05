@@ -1,5 +1,3 @@
-// Ref. https://express-validator.github.io/docs/custom-error-messages.html
-
 import express from "express";
 import { check, validationResult } from "express-validator/check";
 import { generateOTID } from "../database";

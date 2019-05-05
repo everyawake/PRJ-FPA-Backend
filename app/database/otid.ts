@@ -21,7 +21,7 @@ const generateOTID = (params: { id: string }) => {
       (err, result) => {
         if (err) {
           resolve({ result: -1 });
-          console.error("[ERR] signIn(): \n", err);
+          console.error("[ERR] generateOTID(): \n", err);
           mysqlConn.end();
           return;
         }
@@ -56,7 +56,7 @@ const getUserIdByOTID = (params: { otid: string }) => {
       (err, result) => {
         if (err) {
           resolve({ result: -1 });
-          console.error("[ERR] signIn(): \n", err);
+          console.error("[ERR] getUserIdByOTID(): \n", err);
           mysqlConn.end();
           return;
         }

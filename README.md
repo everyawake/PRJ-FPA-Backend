@@ -13,8 +13,8 @@ FPA(FreePath Authenticator)
 ### User
 
 - [x] Member Sign up
-- [ ] Email Confirm issue
-- [ ] Email Confirm check
+- [x] Email Confirm issue
+- [x] Email Confirm check
 - [x] Sign In
 - [ ] Reset password(이메일 관련 작업 필요)
 - [x] Change finger print

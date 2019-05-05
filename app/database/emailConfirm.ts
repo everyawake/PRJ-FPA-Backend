@@ -5,7 +5,7 @@ const emailConfirm = (params: { id: string }) => {
     const mysqlConn = MysqlBase.getInstance();
     const { id } = params;
 
-    mysqlConn.query("call confirmEmail(?);", [id], (err, result) => {
+    mysqlConn.query("call confirm_email(?)", [id], (err, result) => {
       if (err) {
         resolve({ result: -1 });
         console.error("[ERR] eamilConfirm(): \n", err);

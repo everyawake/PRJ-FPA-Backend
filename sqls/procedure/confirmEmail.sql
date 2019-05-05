@@ -2,7 +2,7 @@
 # 200 : OK
 # 400 : Nonexistent email
 
-create procedure `confirmEmail`(
+create procedure `confirm_email`(
   in in_id varchar(20)
 ) BEGIN
 

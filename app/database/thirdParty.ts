@@ -1,8 +1,7 @@
 import crypto from "crypto";
 import MysqlBase from "./mysqlBase";
 
-const KEY_GEN_SALT = process.env.KEY_GEN_SALT || "";
-if (!KEY_GEN_SALT) {
+if (!process.env.KEY_GEN_SALT) {
   throw new Error("Need KEY_GEN_SALT!!");
 }
 
@@ -77,7 +76,7 @@ function generateKey(dataString: string, enableRandomByte: boolean = false) {
   try {
     const salt = enableRandomByte
       ? crypto.randomBytes(64).toString("base64")
-      : KEY_GEN_SALT;
+      : process.env.KEY_GEN_SALT || "";
     const key = crypto.pbkdf2Sync(dataString, salt, 10000, 64, "sha512");
     return key.toString("base64");
   } catch (err) {

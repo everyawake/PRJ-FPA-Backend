@@ -4,6 +4,7 @@ import compression from "compression";
 
 import UserRouter from "./routes/user";
 import AuthRouter from "./routes/auth";
+import OTIDRouter from "./routes/otid";
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -16,6 +17,7 @@ app.use(compression());
 // initialize routes
 app.use("/users", UserRouter);
 app.use("/auth", AuthRouter);
+app.use("/otid", OTIDRouter);
 
 app.get("/", (_req, res) => {
   res.send("hello world");

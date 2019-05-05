@@ -23,6 +23,7 @@
     "mysql2": "^1.6.5",
     "nodemon": "^1.18.10",
     "pm2": "^3.5.0",
+    "shortid": "^2.2.14",
     "ts-node": "^8.0.3",
     "typescript": "^3.3.4000"
   },
@@ -36,6 +37,7 @@
     "@types/lodash": "^4.14.123",
     "@types/mysql2": "github:types/npm-mysql2",
     "@types/node": "^11.11.6",
+    "@types/shortid": "0.0.29",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0"
   },

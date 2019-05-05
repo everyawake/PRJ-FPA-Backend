@@ -19,7 +19,7 @@ FPA(FreePath Authenticator)
 - [ ] Reset password(이메일 관련 작업 필요)
 - [x] Change finger print
 - [ ] Update user info(Device id, developer mode, admin mode, etc)
-- [ ] Generate new OTID
+- [x] Generate new OTID
 - [ ] Find user id(OTID 로 회원정보를 찾음)
 - [ ] disconnect to Third-part app/web
 

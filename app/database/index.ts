@@ -1,6 +1,5 @@
 import signUp from "./signUp";
 import signIn from "./signIn";
-import getMyData from "./getMyData";
-import { generateOTID, getUserIdByOTID } from "./otid";
+import { getMyData, updateFingerAuthAbility } from "./myInformation";
 
-export { signUp, signIn, getMyData, generateOTID, getUserIdByOTID };
+export { signUp, signIn, getMyData, updateFingerAuthAbility };

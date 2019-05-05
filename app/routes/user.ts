@@ -2,9 +2,11 @@
 
 import express from "express";
 import { check, validationResult } from "express-validator/check";
-import { signUp, signIn } from "../database";
+import { signUp, signIn, updateFingerAuthAbility } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
-import { fpaTokenSign } from "../helpers/fpaTokenMiddleware";
+import fpaTokenMiddleware, {
+  fpaTokenSign,
+} from "../helpers/fpaTokenMiddleware";
 
 const router = express.Router();
 
@@ -52,7 +54,7 @@ router.post(
           role: 9999,
           fcm_token,
           confirmed: false,
-          fingerauth_enable: false
+          fingerauth_enable: false,
         });
         return res.status(201).json({
           token: newToken,
@@ -91,6 +93,41 @@ router.post(
 
       default: {
         return res.status(422).json(result);
+      }
+    }
+  },
+);
+
+router.put(
+  "/fingerprintAbility",
+  fpaTokenMiddleware,
+  [
+    check("featureAbility")
+      .exists()
+      .isBoolean(),
+    check("userTokenData").exists(),
+  ],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const uid = req.body.userTokenData.data.id;
+    const fingerAuthAbility = req.body.featureAbility;
+
+    const result = await updateFingerAuthAbility({
+      id: uid,
+      fingerAuthAbility,
+    });
+
+    switch (result.result) {
+      case 200: {
+        return res.status(200).json({ result: "updated" });
+      }
+
+      default: {
+        return res.status(400).json({ result: "Couldn't update..." });
       }
     }
   },

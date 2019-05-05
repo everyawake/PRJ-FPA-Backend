@@ -7,6 +7,7 @@ declare namespace UserRouter {
     role: number;
     fcm_token: string;
     confirmed: boolean;
+    fingerauth_enable: boolean;
     result: number;
   }
 }

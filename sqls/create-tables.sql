@@ -14,6 +14,7 @@ create table user_info(
   username varchar(30),
   password varchar(64) not null,# sha256 + some
   confirmed boolean default false,
+  fingerauth_enable boolean default false,
   device_uuid text, # use mac address
   fcm_token text,
   delete_flag boolean default false

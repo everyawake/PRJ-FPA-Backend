@@ -6,4 +6,5 @@ interface ITokenData {
   role: number;
   fcm_token: string;
   confirmed: boolean;
+  fingerauth_enable: boolean;
 }

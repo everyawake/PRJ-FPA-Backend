@@ -56,7 +56,6 @@ create table provide_token(
   constraint `pk_provide_token` primary key (target_service, user)
 );
 
-
 create table user_otid (
   otid varchar(14),
   user varchar(20),

@@ -1,10 +1,12 @@
 import sgMail from "@sendgrid/mail";
+import { emailTokenSign } from "../emailTokenMiddleware";
 
 if (!process.env.SENDGRID_API_KEY) {
   throw new Error("Should set Sendgrid API key!!");
 }
 sgMail.setApiKey(process.env.SENDGRID_API_KEY.replace("\r", ""));
 
+const hostname = process.env.NODE_ENV === "production" ? "http://ec2-52-14-124-246.us-east-2.compute.amazonaws.com" : "http://www.lvh.me:3000";
 const from = "no-reply@fpa.org";
 
 function generateEmail(title: string, body: string) {
@@ -99,11 +101,11 @@ function generateEmail(title: string, body: string) {
     </html>`;
 }
 
-const welcomeMailHTML = (username: string) => {
+const welcomeMailHTML = (username: string, emailToken: string) => {
   const content = `
   <div class="body-title">${username}님의 가입을 FPA는 진심으로 환용합니다!</div>
   <div class="body-span">이제, FPA를 통해서 어디서든 안전하고 편리하게 로그인해보세요!</div>
-
+  <a type="submit" href="${hostname}/auth/emailConfirmation?token=${emailToken}">인증</a>
   <img src="https://t1.daumcdn.net/cfile/tistory/250A604058ACA09E02" width="100%" height="100%"/>
   `;
   return generateEmail("FPA에 참여하신걸 환영합니다!", content);
@@ -133,8 +135,9 @@ const sendUserConfirmationEmail = (to: string) => {
   mailSend(msg);
 };
 
-const sendWelcomeMail = async (to: string, username: string) => {
-  const html = welcomeMailHTML(username);
+const sendWelcomeMail = ({to, username, id} :{to: string; username: string; id: string;}) => {
+  const token = emailTokenSign({email: to, username: username, id} as IEmailTokenData);
+  const html = welcomeMailHTML(username, token);
   const msg = {
     to,
     from,

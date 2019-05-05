@@ -13,7 +13,9 @@ module.exports = {
       "MYSQL_ADDR": process.env.MYSQL_ADDR,
       "MYSQL_USER": process.env.MYSQL_USER,
       "MYSQL_PWD": process.env.MYSQL_PWD,
-      "FPA_SIGN_KEY": process.env.FPA_SIGN_KEY
+      "FPA_SIGN_KEY": process.env.FPA_SIGN_KEY,
+      "KEY_GEN_SALT": process.env.KEY_GEN_SALT,
+      "FPA_EMAIL_VERIFY_KEY": process.env.FPA_EMAIL_VERIFY_KEY
     },
   }]
 }

@@ -52,6 +52,7 @@ router.post(
           role: 9999,
           fcm_token,
           confirmed: false,
+          fingerauth_enable: false
         });
         return res.status(201).json({
           token: newToken,

@@ -6,6 +6,7 @@ import {
   changeUserMode,
 } from "./myInformation";
 import { generateOTID, getUserIdByOTID } from "./otid";
+import { addThirdApp, regeneratePublicKey } from "./thirdParty";
 
 export {
   signUp,
@@ -15,4 +16,6 @@ export {
   changeUserMode,
   generateOTID,
   getUserIdByOTID,
+  addThirdApp,
+  regeneratePublicKey,
 };

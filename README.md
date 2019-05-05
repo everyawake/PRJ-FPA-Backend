@@ -34,8 +34,8 @@ FPA(FreePath Authenticator)
 
 ### Third-party
 
-- [ ] Add new app/web
-- [ ] Regenerate public/secrete key
+- [x] Add new app/web
+- [x] Regenerate public key
 - [ ] Update Third-party info
 - [ ] Get user token
 - [ ] Connection this user(페북으로 로그인 사용시 정보 제공 동의 같은 기능)

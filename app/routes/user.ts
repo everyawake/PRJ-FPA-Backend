@@ -2,11 +2,17 @@
 
 import express from "express";
 import { check, validationResult } from "express-validator/check";
-import { signUp, signIn, updateFingerAuthAbility } from "../database";
+import {
+  signUp,
+  signIn,
+  updateFingerAuthAbility,
+  changeUserMode,
+} from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
 import fpaTokenMiddleware, {
   fpaTokenSign,
 } from "../helpers/fpaTokenMiddleware";
+import { USER_ROLE_TYPE } from "../database/myInformation";
 
 const router = express.Router();
 
@@ -127,7 +133,68 @@ router.put(
       }
 
       default: {
-        return res.status(400).json({ result: "Couldn't update..." });
+        return res.status(401).json({ result: "Couldn't update..." });
+      }
+    }
+  },
+);
+
+router.put(
+  "/privilege-developer",
+  fpaTokenMiddleware,
+  [check("userTokenData").exists()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const uid = req.body.userTokenData.data.id;
+    const result = await changeUserMode({
+      id: uid,
+      role: USER_ROLE_TYPE.THIRD_PARTY_DEVELOPER,
+    });
+
+    switch (result.result) {
+      case 200: {
+        return res.status(200).json({ result: "updated" });
+      }
+
+      default: {
+        return res.status(401).json({ result: "Couldn't update..." });
+      }
+    }
+  },
+);
+
+router.put(
+  "/privilege-admin",
+  fpaTokenMiddleware,
+  [check("userTokenData").exists()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const { id: uid, role } = req.body.userTokenData.data as ITokenData;
+
+    if (role != 1) {
+      return res.status(401).json({ result: "You can not pass!" });
+    }
+
+    const result = await changeUserMode({
+      id: uid,
+      role: USER_ROLE_TYPE.ADMIN,
+    });
+
+    switch (result.result) {
+      case 200: {
+        return res.status(200).json({ result: "updated" });
+      }
+
+      default: {
+        return res.status(401).json({ result: "Couldn't update..." });
       }
     }
   },

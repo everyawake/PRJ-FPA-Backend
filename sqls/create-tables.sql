@@ -17,7 +17,10 @@ create table user_info(
   fingerauth_enable boolean default false,
   device_uuid text, # use mac address
   fcm_token text,
+  role int,
   delete_flag boolean default false
+
+  constraint `fk_user_privilige` foregin key (role) references privilige_role(role_id)
 );
 
 create table login_log (

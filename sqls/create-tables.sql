@@ -20,13 +20,6 @@ create table user_info(
   delete_flag boolean default false
 );
 
-create table user_otp (
-  user varchar(20) primary key,
-  code varchar(4),
-
-  constraint `fk_user_otp_user` foreign key (user) references user_info(id)
-);  # server make this code every time
-
 create table login_log (
   idx int auto_increment primary key,
   user varchar(20),
@@ -58,4 +51,14 @@ create table provide_token(
   constraint `fk_provide_token` foreign key (target_service) references  provider(public_key),
   constraint `fk_provide_token_user` foreign key (user) references user_info(id),
   constraint `pk_provide_token` primary key (target_service, user)
+);
+
+
+create table user_otid (
+	otid varchar(14),
+    user varchar(20),
+    expiredAt int,
+
+    constraint `pk_otid` primary key(otid, user),
+    constraint `fk_user_otid` foreign key (user) references user_info(id)
 );

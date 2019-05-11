@@ -45,6 +45,7 @@ create table provider(
 );
 
 create table provide_token(
+  idx int auto_increment,
   target_service varchar(300),
   user varchar(20),
   token text,
@@ -53,7 +54,7 @@ create table provide_token(
 
   constraint `fk_provide_token` foreign key (target_service) references  provider(public_key),
   constraint `fk_provide_token_user` foreign key (user) references user_info(id),
-  constraint `pk_provide_token` primary key (target_service, user)
+  constraint `pk_provide_token` primary key (idx, target_service, user)
 );
 
 create table user_otid (

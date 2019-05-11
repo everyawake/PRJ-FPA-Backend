@@ -62,8 +62,6 @@ const getUserIdByOTID = (params: { otid: string }) => {
         }
 
         const data = JSON.parse(JSON.stringify(result))[0][0];
-        console.log("!!!!", data);
-
         resolve({
           result: 200,
           data: {

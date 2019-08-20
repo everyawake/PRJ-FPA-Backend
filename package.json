@@ -2,12 +2,13 @@
   "name": "fpa-server",
   "version": "1.0.0",
   "description": "Finger print authenticate provider service",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "test": "jest",
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node --files' app/index.ts",
-    "pre-production": "pm2 install typescript && pm2 start pmApp.config.js",
-    "start": "npm i && npm run pre-production"
+    "pre-production": "pm2 install typescript",
+    "aws-production": "npm run pre-production && pm2 start pmApp.config.jst",
+    "start": "ts-node --files app/index.ts"
   },
   "author": "GenesisSam",
   "license": "ISC",

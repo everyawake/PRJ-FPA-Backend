@@ -1,5 +1,5 @@
 import express from "express";
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import { generateOTID } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
 

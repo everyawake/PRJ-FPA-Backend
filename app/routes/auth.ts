@@ -4,7 +4,7 @@ import fpaTokenMiddleware, {
 } from "../helpers/fpaTokenMiddleware";
 import emailTokenMiddleware from "../helpers/emailTokenMiddleware";
 import { getMyData, emailConfirm } from "../database";
-import { check } from "express-validator/check";
+import { check } from "express-validator";
 
 const router = express.Router();
 
@@ -43,7 +43,7 @@ router.get("/emailConfirmation", emailTokenMiddleware, [check("emailTokenData").
 
   const result = await emailConfirm({ id });
 
-  switch(result.result) {
+  switch (result.result) {
     case 200: {
       return res.status(200).json({
         state: "success"

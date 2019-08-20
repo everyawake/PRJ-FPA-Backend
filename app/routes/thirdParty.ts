@@ -1,5 +1,5 @@
 import express from "express";
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
 import { addThirdApp, regeneratePublicKey } from "../database";
 import { approveToThirdApp, checkUserApproved } from "../database/thirdParty";

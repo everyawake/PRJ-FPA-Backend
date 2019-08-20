@@ -1,7 +1,7 @@
 // Ref. https://express-validator.github.io/docs/custom-error-messages.html
 
 import express from "express";
-import { check, validationResult } from "express-validator/check";
+import { check, validationResult } from "express-validator";
 import {
   signUp,
   signIn,
@@ -51,7 +51,7 @@ router.post(
     switch (result.result) {
       case 200: {
         const { id, email, username, device_uuid, fcm_token } = req.body;
-        sendWelcomeMail({to: email, username, id});
+        sendWelcomeMail({ to: email, username, id });
 
         const newToken = fpaTokenSign({
           id,

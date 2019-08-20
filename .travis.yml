@@ -21,6 +21,8 @@ deploy:
   provider: heroku
   api_key: "$HEROKU_API_KEY"
   app: fpa-backend
+  run:
+    - "npm install"
   # matrix:
   # - provider: s3
   #   access_key_id: "$AWS_ACCESS_KEY"

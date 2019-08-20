@@ -7,7 +7,7 @@ import AuthRouter from "./routes/auth";
 import OTIDRouter from "./routes/otid";
 import ThirdParty from "./routes/thirdParty";
 
-const port = process.env.PORT || 3000;
+const port = process.env.production ? 80 : 3000;
 const app = express();
 
 // initialize express third module

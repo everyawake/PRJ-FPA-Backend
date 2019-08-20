@@ -7,7 +7,7 @@
     "test": "jest",
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node --files' app/index.ts",
     "pre-production": "pm2 install typescript && pm2 start pmApp.config.js",
-    "start": "npm run pre-production"
+    "start": "npm i && npm run pre-production"
   },
   "author": "GenesisSam",
   "license": "ISC",

@@ -2,7 +2,7 @@ import shortid from "shortid";
 import MysqlBase from "./mysqlBase";
 
 shortid.characters(
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@#",
 );
 
 type ErrorResult = { result: -1 };

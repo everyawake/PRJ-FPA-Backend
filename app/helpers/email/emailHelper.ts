@@ -6,7 +6,7 @@ if (!process.env.SENDGRID_API_KEY) {
 }
 sgMail.setApiKey(process.env.SENDGRID_API_KEY.replace("\r", ""));
 
-const hostname = process.env.NODE_ENV === "production" ? "http://ec2-52-14-124-246.us-east-2.compute.amazonaws.com" : "http://www.lvh.me:3000";
+const hostname = process.env.NODE_ENV === "production" ? "https://https://fpa-backend.herokuapp.com" : "http://www.lvh.me:3000";
 const from = "no-reply@fpa.org";
 
 function generateEmail(title: string, body: string) {
@@ -135,8 +135,8 @@ const sendUserConfirmationEmail = (to: string) => {
   mailSend(msg);
 };
 
-const sendWelcomeMail = ({to, username, id} :{to: string; username: string; id: string;}) => {
-  const token = emailTokenSign({email: to, username: username, id} as IEmailTokenData);
+const sendWelcomeMail = ({ to, username, id }: { to: string; username: string; id: string; }) => {
+  const token = emailTokenSign({ email: to, username: username, id } as IEmailTokenData);
   const html = welcomeMailHTML(username, token);
   const msg = {
     to,

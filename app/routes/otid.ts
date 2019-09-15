@@ -1,6 +1,6 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
-import { generateOTID } from "../database";
+import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
 
 const router = express.Router();
@@ -44,6 +44,52 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
     }
+
+    const publicKey = req.body["thirdparty-public-key"];
+
+    const otidOwner = await getUserIdByOTID({
+      otid: req.params.otid
+    });
+
+    if (otidOwner.result === -1) {
+      return res.status(422).json({ result: "OTID is not valid" });
+    }
+
+    const userId = otidOwner.data.user;
+    if (!userId) {
+      return res.status(422).json({ result: "Invalid user id" });
+    }
+
+    const [
+      userApproved,
+      userData
+    ] = await Promise.all([
+      checkUserApproved({
+        publicKey,
+        userId,
+      }),
+      getMyData({ id: userId })
+    ])
+
+    switch (userApproved.result) {
+      case 200: {
+        const thirdApprovedToken = userApproved.token;
+        // send push message
+
+
+        return res.status(200).json({
+          result: 200,
+          token: userApproved.token,
+        });
+      }
+      case 404:
+      case -1:
+      default: {
+        return res.status(404).json({
+          result: "User can't found...",
+        });
+      }
+    }
     /**
      * 1. OTID로 유저 검색과 해당 유저가 해당 써드파티에 승인되어 있는지 확인
      * 2. (승인됨) 유저에게 지문인식 요청
@@ -54,9 +100,7 @@ router.post(
      * 2-2, (지문인식실패) 지문인식 실패로인한 로그인 실패 안내
 
      */
-    console.log("!!!!!", req.params);
 
-    return res.status(200).json(req.params);
   },
 );
 

@@ -1,7 +1,8 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
-import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData } from "../database";
+import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData, getThirdPartyInformation } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
+import { pushAuthRequestMessage } from "../helpers/pushMessage";
 
 const router = express.Router();
 
@@ -47,12 +48,20 @@ router.post(
 
     const publicKey = req.body["thirdparty-public-key"];
 
-    const otidOwner = await getUserIdByOTID({
-      otid: req.params.otid
-    });
+    const [otidOwner, thirdPartyInfo] = await Promise.all([
+      getUserIdByOTID({
+        otid: req.params.otid
+      }),
+      getThirdPartyInformation({
+        publicKey,
+      })
+    ]);
 
     if (otidOwner.result === -1) {
-      return res.status(422).json({ result: "OTID is not valid" });
+      return res.status(422).json({ result: "OTID is not valid." });
+    }
+    if (thirdPartyInfo.result === -1 || thirdPartyInfo.result === 404) {
+      return res.status(422).json({ result: "There is not exists that thirdParty application." });
     }
 
     const userId = otidOwner.data.user;
@@ -62,20 +71,27 @@ router.post(
 
     const [
       userApproved,
-      userData
+      userDataResponse
     ] = await Promise.all([
       checkUserApproved({
         publicKey,
         userId,
       }),
       getMyData({ id: userId })
-    ])
+    ]);
+
+    const userData = userDataResponse.result;
+
+    if (userData === -1) {
+      return res.status(404).json({ result: "User can't found..." });
+    }
 
     switch (userApproved.result) {
       case 200: {
-        const thirdApprovedToken = userApproved.token;
+        const thirdPartyName = (thirdPartyInfo as { result: 200, data: IThirdPartySimpleInformation }).data.name;
+        const targetUserGCMToken = (userData as ITokenData).fcm_token;
         // send push message
-
+        pushAuthRequestMessage(targetUserGCMToken, thirdPartyName, "hests");
 
         return res.status(200).json({
           result: 200,

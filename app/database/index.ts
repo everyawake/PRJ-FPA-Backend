@@ -6,7 +6,7 @@ import {
   changeUserMode,
 } from "./myInformation";
 import { generateOTID, getUserIdByOTID } from "./otid";
-import { addThirdApp, regeneratePublicKey, approveToThirdApp, checkUserApproved } from "./thirdParty";
+import { addThirdApp, regeneratePublicKey, approveToThirdApp, checkUserApproved, getThirdPartyInformation } from "./thirdParty";
 import emailConfirm from "./emailConfirm"
 
 export {
@@ -21,5 +21,6 @@ export {
   regeneratePublicKey,
   emailConfirm,
   approveToThirdApp,
-  checkUserApproved
+  checkUserApproved,
+  getThirdPartyInformation,
 };

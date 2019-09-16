@@ -14,3 +14,10 @@ interface IEmailTokenData {
   username: string;
   id: string;
 }
+
+interface IThirdPartySimpleInformation {
+  name: string;
+  site_url: string;
+  owner: string;
+  secret_key: string;
+}

@@ -155,3 +155,39 @@ export const checkUserApproved = (params: {
     },
   );
 };
+
+export const getThirdPartyInformation = (params: { publicKey: string }) => {
+  return new Promise<{ result: -1 | 404 } | { result: 200; data: IThirdPartySimpleInformation; }>(
+    resolve => {
+      const mysqlConn = MysqlBase.getInstance();
+      const { publicKey } = params;
+
+      mysqlConn.query(
+        "select secret_key, name, site_url, owner from provider where public_key = ?",
+        [publicKey],
+        (err, result) => {
+          if (err) {
+            resolve({ result: -1 });
+            console.error("[ERR] getThirdPartyInformation(): \n", err);
+            mysqlConn.end();
+            return;
+          }
+
+          const returnVal = JSON.parse(JSON.stringify(result))[0];
+          if (returnVal) {
+            resolve({
+              result: 200,
+              data: returnVal,
+            });
+          } else {
+            resolve({
+              result: 404,
+            });
+          }
+
+          mysqlConn.end();
+        },
+      );
+    },
+  );
+}

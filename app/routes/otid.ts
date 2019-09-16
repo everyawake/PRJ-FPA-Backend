@@ -1,5 +1,7 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
+import SocketIO from "socket.io-client";
+
 import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData, getThirdPartyInformation } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
 import { pushAuthRequestMessage } from "../helpers/pushMessage";
@@ -36,6 +38,31 @@ router.post(
     }
   },
 );
+
+router.post("/fpa-auth-send", fpaTokenMiddleware, [check("userTokenData").exists(), check("channelId").exists(), check("authStatus").exists()], async (req: express.Request, res: express.Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  const { channelId, authStatus, } = req.body;
+
+  const sock = SocketIO("http://localhost", { port: process.env.PORT || "3000", path: "/fpa" });
+
+  sock.emit("fpa_channel_join", {
+    channelId,
+  });
+  sock.emit("auth_send", {
+    channelId,
+    response: {
+      authStatus,
+    }
+  });
+
+  sock.close();
+
+  return res.status(200).json("job_done");
+});
 
 router.post(
   "/:otid",
@@ -89,13 +116,14 @@ router.post(
     switch (userApproved.result) {
       case 200: {
         const thirdPartyName = (thirdPartyInfo as { result: 200, data: IThirdPartySimpleInformation }).data.name;
+        const channelId = `${userApproved.token}_${Date.now()}`;
         const targetUserGCMToken = (userData as ITokenData).fcm_token;
         // send push message
-        pushAuthRequestMessage(targetUserGCMToken, thirdPartyName, "hests");
+        pushAuthRequestMessage(targetUserGCMToken, thirdPartyName, channelId);
 
         return res.status(200).json({
           result: 200,
-          token: userApproved.token,
+          channelId,
         });
       }
       case 404:
@@ -119,5 +147,6 @@ router.post(
 
   },
 );
+
 
 export default router;

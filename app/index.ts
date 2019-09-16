@@ -1,6 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import compression from "compression";
+import http from "http";
+import socketIO from "socket.io";
+import cors from "cors";
 
 import UserRouter from "./routes/user";
 import AuthRouter from "./routes/auth";
@@ -9,11 +12,29 @@ import ThirdParty from "./routes/thirdParty";
 
 const port = process.env.PORT || 3000;
 const app = express();
+const server = http.createServer(app);
+const io = socketIO(server);
 
 // initialize express third module
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());
+
+
+io.of("/fpa").on("connection", (socket) => {
+  console.log("!!!!!!!! >>>>>")
+  socket.on("fpa_channel_join", (data) => {
+    console.log("!!!!!!! fpa join: ", data);
+
+    const channelId = data.channelId;
+    socket.join(channelId);
+  });
+  socket.on("auth_send", (msg) => {
+    console.log("!!!!!!!!!!!!!! auth_send", msg)
+    io.to(msg.channelId).emit("broadcast", msg.response);
+  });
+});
 
 // initialize routes
 app.use("/users", UserRouter);
@@ -25,6 +46,6 @@ app.get("/", (_req, res) => {
   res.send("hello world");
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log("Server is now running at PORT: ", port);
 });

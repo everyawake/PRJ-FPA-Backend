@@ -1,7 +1,10 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
-import { generateOTID } from "../database";
+import SocketIO from "socket.io-client";
+
+import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData, getThirdPartyInformation } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
+import { pushAuthRequestMessage } from "../helpers/pushMessage";
 
 const router = express.Router();
 
@@ -36,6 +39,31 @@ router.post(
   },
 );
 
+router.post("/fpa-auth-send", fpaTokenMiddleware, [check("userTokenData").exists(), check("channelId").exists(), check("authStatus").exists()], async (req: express.Request, res: express.Response) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  const { channelId, authStatus, } = req.body;
+
+  const sock = SocketIO("http://localhost", { port: process.env.PORT || "3000", path: "/fpa" });
+
+  sock.emit("fpa_channel_join", {
+    channelId,
+  });
+  sock.emit("auth_send", {
+    channelId,
+    response: {
+      authStatus,
+    }
+  });
+
+  sock.close();
+
+  return res.status(200).json("job_done");
+});
+
 router.post(
   "/:otid",
   [check("thirdparty-public-key").exists()],
@@ -43,6 +71,68 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
+    }
+
+    const publicKey = req.body["thirdparty-public-key"];
+
+    const [otidOwner, thirdPartyInfo] = await Promise.all([
+      getUserIdByOTID({
+        otid: req.params.otid
+      }),
+      getThirdPartyInformation({
+        publicKey,
+      })
+    ]);
+
+    if (otidOwner.result === -1) {
+      return res.status(422).json({ result: "OTID is not valid." });
+    }
+    if (thirdPartyInfo.result === -1 || thirdPartyInfo.result === 404) {
+      return res.status(422).json({ result: "There is not exists that thirdParty application." });
+    }
+
+    const userId = otidOwner.data.user;
+    if (!userId) {
+      return res.status(422).json({ result: "Invalid user id" });
+    }
+
+    const [
+      userApproved,
+      userDataResponse
+    ] = await Promise.all([
+      checkUserApproved({
+        publicKey,
+        userId,
+      }),
+      getMyData({ id: userId })
+    ]);
+
+    const userData = userDataResponse.result;
+
+    if (userData === -1) {
+      return res.status(404).json({ result: "User can't found..." });
+    }
+
+    switch (userApproved.result) {
+      case 200: {
+        const thirdPartyName = (thirdPartyInfo as { result: 200, data: IThirdPartySimpleInformation }).data.name;
+        const channelId = `${userApproved.token}_${Date.now()}`;
+        const targetUserGCMToken = (userData as ITokenData).fcm_token;
+        // send push message
+        pushAuthRequestMessage(targetUserGCMToken, thirdPartyName, channelId);
+
+        return res.status(200).json({
+          result: 200,
+          channelId,
+        });
+      }
+      case 404:
+      case -1:
+      default: {
+        return res.status(404).json({
+          result: "User can't found...",
+        });
+      }
     }
     /**
      * 1. OTID로 유저 검색과 해당 유저가 해당 써드파티에 승인되어 있는지 확인
@@ -54,10 +144,9 @@ router.post(
      * 2-2, (지문인식실패) 지문인식 실패로인한 로그인 실패 안내
 
      */
-    console.log("!!!!!", req.params);
 
-    return res.status(200).json(req.params);
   },
 );
+
 
 export default router;

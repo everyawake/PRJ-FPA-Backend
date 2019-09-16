@@ -6,7 +6,7 @@ shortid.characters(
 );
 
 type ErrorResult = { result: -1 };
-type SuccessResult = { result: 200; data: { otid?: string; id?: string } };
+type SuccessResult = { result: 200; data: { otid?: string; id?: string; user?: string; } };
 
 const generateOTID = (params: { id: string }) => {
   return new Promise<ErrorResult | SuccessResult>(resolve => {
@@ -61,12 +61,10 @@ const getUserIdByOTID = (params: { otid: string }) => {
           return;
         }
 
-        const data = JSON.parse(JSON.stringify(result))[0][0];
+        const data = JSON.parse(JSON.stringify(result))[0];
         resolve({
           result: 200,
-          data: {
-            id: data,
-          },
+          data,
         });
       },
     );

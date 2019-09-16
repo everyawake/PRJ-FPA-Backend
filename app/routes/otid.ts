@@ -87,9 +87,9 @@ router.post(
       return res.status(422).json({ result: "There is not exists that thirdParty application." });
     }
 
-    const userId = otidOwner.data.user;
+    const userId = otidOwner.data && otidOwner.data.user;
     if (!userId) {
-      return res.status(422).json({ result: "Invalid user id" });
+      return res.status(404).json({ result: "Incorrect OTID" });
     }
 
     const [

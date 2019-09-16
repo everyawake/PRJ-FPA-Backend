@@ -1,6 +1,6 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
-import SocketIO from "socket.io-client";
+
 
 import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData, getThirdPartyInformation } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
@@ -47,19 +47,15 @@ router.post("/fpa-auth-send", fpaTokenMiddleware, [check("userTokenData").exists
 
   const { channelId, authStatus, } = req.body;
 
-  const sock = SocketIO("http://localhost", { port: process.env.PORT || "3000", path: "/fpa" });
-
-  sock.emit("fpa_channel_join", {
+  (req as any).io.emit("fpa_channel_join", {
     channelId,
   });
-  sock.emit("auth_send", {
+  (req as any).io.emit("auth_send", {
     channelId,
     response: {
       authStatus,
     }
   });
-
-  sock.close();
 
   return res.status(200).json("job_done");
 });

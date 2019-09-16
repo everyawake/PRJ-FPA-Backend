@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import compression from "compression";
 import http from "http";
 import socketIO from "socket.io";
+import clientIO from "socket.io-client";
 import cors from "cors";
 
 import UserRouter from "./routes/user";
@@ -23,10 +24,8 @@ app.use(compression());
 
 
 io.of("/fpa").on("connection", (socket) => {
-  console.log("!!!!!!!! >>>>>")
   socket.on("fpa_channel_join", (data) => {
     console.log("!!!!!!! fpa join: ", data);
-
     const channelId = data.channelId;
     socket.join(channelId);
   });
@@ -37,6 +36,10 @@ io.of("/fpa").on("connection", (socket) => {
 });
 
 // initialize routes
+app.use((req, _res, next) => {
+  (req as any).io = clientIO(`http://localhost:${port}/fpa`);
+  next();
+});
 app.use("/users", UserRouter);
 app.use("/auth", AuthRouter);
 app.use("/otid", OTIDRouter);

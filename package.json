@@ -24,6 +24,9 @@
     "@types/mysql2": "github:types/npm-mysql2",
     "@types/node": "^12.7.2",
     "@types/shortid": "0.0.29",
+    "@types/cors": "^2.8.6",
+    "@types/socket.io": "^2.1.2",
+    "@types/socket.io-client": "^1.4.32",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
@@ -42,9 +45,6 @@
     "typescript": "^3.5.3"
   },
   "devDependencies": {
-    "@types/cors": "^2.8.6",
-    "@types/socket.io": "^2.1.2",
-    "@types/socket.io-client": "^1.4.32",
     "jest": "^24.5.0",
     "ts-jest": "^24.0.0"
   },

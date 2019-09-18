@@ -8,7 +8,7 @@
     "dev": "nodemon --watch 'app/**/*.ts' --ignore 'app/**/*.spec.ts' --exec 'ts-node --files' app/index.ts",
     "pre-production": "pm2 install typescript",
     "aws-production": "npm run pre-production && pm2 start pmApp.config.jst",
-    "start": "ts-node --files app/index.ts"
+    "start": "mkdir .config && curl -o finger-print-authenticate-060a38c21529.json https://firebasestorage.googleapis.com/v0/b/finger-print-authenticate.appspot.com/o/finger-print-authenticate-060a38c21529.json?alt=media&token=ffffb45d-b0f3-4772-992d-75691745239a && ts-node --files app/index.ts"
   },
   "author": "GenesisSam",
   "license": "ISC",

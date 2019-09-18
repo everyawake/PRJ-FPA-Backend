@@ -3,7 +3,7 @@ import firebaseAdmin from "firebase-admin";
 firebaseAdmin.initializeApp({
   credential: firebaseAdmin.credential.cert({
     projectId: "finger-print-authenticate",
-    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY!.replace(/\\n/g, "\n"),
     clientEmail: process.env.FIREBASE_CLIENT_EMAIL
   })
 });

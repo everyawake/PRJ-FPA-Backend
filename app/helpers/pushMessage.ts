@@ -1,9 +1,11 @@
 import firebaseAdmin from "firebase-admin";
 
-const firebaseConfig = require("../../configs/finger-print-authenticate-060a38c21529.json");
-
 firebaseAdmin.initializeApp({
-  credential: firebaseAdmin.credential.cert(firebaseConfig)
+  credential: firebaseAdmin.credential.cert({
+    projectId: "finger-print-authenticate",
+    privateKey: process.env.FIREBASE_PRIVATE_KEY,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL
+  })
 });
 
 export function pushAuthRequestMessage(

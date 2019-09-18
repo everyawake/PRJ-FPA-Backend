@@ -1,22 +1,22 @@
 language: node_js
 node_js:
-- 10.13.0
+  - 10.13.0
 cache: npm
 install:
-- npm install
+  - npm install
 script:
-- npm test
+  - npm test
 notifications:
   slack:
     rooms:
-    - everyawake:AI8aX9YtvJ0G92adeuClf8vr#st-backend-alert
+      - everyawake:AI8aX9YtvJ0G92adeuClf8vr#st-backend-alert
     on_pull_requests: false
     on_success: change
     on_failure: always
 before_deploy:
-- zip -x node_modules/\* -r fpa-backend *
-- mkdir -p deploy
-- mv fpa-backend.zip deploy/fpa-backend.zip
+  - zip -x node_modules/\* -r fpa-backend *
+  - mkdir -p deploy
+  - mv fpa-backend.zip deploy/fpa-backend.zip
 deploy:
   provider: heroku
   api_key: "$HEROKU_API_KEY"
@@ -49,5 +49,3 @@ deploy:
   #   on:
   #     repo: everyawake/PRJ-FPA-Backend
   #     branch: master
-
-

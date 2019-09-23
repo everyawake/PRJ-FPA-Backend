@@ -1,33 +1,40 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import { getMyData } from "app/database";
 
 const SIGN_KEY = process.env.FPA_SIGN_KEY;
 if (!SIGN_KEY) {
   throw new Error("Should set FPA_SIGN_KEY!!");
 }
 
-const fpaTokenAuthenticator = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-) => {
+const fpaTokenAuthenticator = (req: express.Request, res: express.Response, next: express.NextFunction) => {
   const userToken = req.header("fpa-authenticate-token");
   if (!userToken) {
     res.status(400).json({
-      result: "Need token",
+      result: "Need token"
     });
     return;
   }
 
   try {
     const verifiedTokenData = jwt.verify(userToken, SIGN_KEY) as any;
-
-    req.body.userTokenData = verifiedTokenData;
-    next();
+    getMyData({
+      id: verifiedTokenData.id
+    }).then(result => {
+      if (result.result === -1) {
+        res.status(400).json({
+          result: "Invalid token"
+        });
+        return;
+      } else {
+        req.body.userTokenData = result;
+        next();
+      }
+    });
   } catch (err) {
     res.status(400).json({
       result: "Invalid token",
-      error: err,
+      error: err
     });
     return;
   }

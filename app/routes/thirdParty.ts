@@ -9,11 +9,7 @@ const router = express.Router();
 router.post(
   "/new",
   fpaTokenMiddleware,
-  [
-    check("userTokenData").exists(),
-    check("appName").exists(),
-    check("siteUrl").exists(),
-  ],
+  [check("userTokenData").exists(), check("appName").exists(), check("siteUrl").exists()],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -25,34 +21,34 @@ router.post(
 
     if (!confirmed || role > 3000) {
       return res.status(401).json({
-        result: "You don't have permission",
+        result: "You don't have permission"
       });
     } else {
       const result = await addThirdApp({
         name: appName,
         id,
-        siteUrl,
+        siteUrl
       });
 
       switch (result.result) {
         case 200: {
           return res.status(200).json({
-            result: "Successfully created!",
+            result: "Successfully created!"
           });
         }
         case 301: {
           return res.status(400).json({
-            result: "Already have same name",
+            result: "Already have same name"
           });
         }
         default: {
           return res.status(422).json({
-            result: "Couldn't connect new third-party app",
+            result: "Couldn't connect new third-party app"
           });
         }
       }
     }
-  },
+  }
 );
 
 router.post(
@@ -70,29 +66,29 @@ router.post(
 
     if (!confirmed || role > 3000) {
       return res.status(401).json({
-        result: "You don't have permission",
+        result: "You don't have permission"
       });
     } else {
       const result = await regeneratePublicKey({
         id,
-        publicKey,
+        publicKey
       });
 
       switch (result.result) {
         case 200: {
           return res.status(200).json({
-            result: "Successfully regenerated!",
+            result: "Successfully regenerated!"
           });
         }
         case -1:
         default: {
           return res.status(422).json({
-            result: "Regenerate failed...",
+            result: "Regenerate failed..."
           });
         }
       }
     }
-  },
+  }
 );
 
 router.post(
@@ -110,30 +106,30 @@ router.post(
 
     if (!confirmed) {
       return res.status(401).json({
-        result: "You don't have permission",
+        result: "You don't have permission"
       });
     } else {
       const result = await approveToThirdApp({
         publicKey,
-        userId: id,
+        userId: id
       });
 
       switch (result.result) {
         case 200: {
           return res.status(200).json({
-            result: "Successfully approved!",
+            result: "Successfully approved!"
           });
         }
         case 404:
         case -1:
         default: {
           return res.status(422).json({
-            result: "Approve failed...",
+            result: "Approve failed..."
           });
         }
       }
     }
-  },
+  }
 );
 
 router.post(
@@ -151,31 +147,31 @@ router.post(
 
     if (!confirmed) {
       return res.status(401).json({
-        result: "You don't have permission",
+        result: "You don't have permission"
       });
     } else {
       const result = await checkUserApproved({
         publicKey,
-        userId: id,
+        userId: id
       });
 
       switch (result.result) {
         case 200: {
           return res.status(200).json({
             result: 200,
-            token: result.token,
+            token: result.token
           });
         }
         case 404:
         case -1:
         default: {
           return res.status(404).json({
-            result: "User can't found...",
+            result: "User can't found..."
           });
         }
       }
     }
-  },
+  }
 );
 
 export default router;

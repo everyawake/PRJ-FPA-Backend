@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { getMyData } from "app/database";
+import { getMyData } from "../database";
 
 const SIGN_KEY = process.env.FPA_SIGN_KEY;
 if (!SIGN_KEY) {

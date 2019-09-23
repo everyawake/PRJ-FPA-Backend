@@ -28,7 +28,7 @@ const fpaTokenAuthenticator = (req: express.Request, res: express.Response, next
           });
           return;
         } else {
-          req.body.userTokenData = result;
+          req.body.userTokenData = result.result;
           next();
         }
       })

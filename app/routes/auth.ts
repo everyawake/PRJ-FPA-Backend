@@ -15,7 +15,7 @@ router.get("/", fpaTokenMiddleware, async (req, res) => {
       result: "no data"
     });
   } else {
-    res.status(200).json(result.result);
+    res.status(200).json(result);
   }
 });
 

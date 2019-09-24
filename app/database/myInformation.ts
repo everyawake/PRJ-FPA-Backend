@@ -26,6 +26,46 @@ const getMyData = (params: { id: string }) => {
   });
 };
 
+const getMyOwnedApps = (params: { id: string }) => {
+  return new Promise<{ result: number | Object }>(resolve => {
+    const mysqlConn = MysqlBase.getInstance();
+    const { id } = params;
+
+    mysqlConn.query("call getOwnThirdPartyApps(?);", [id], (err, result) => {
+      if (err) {
+        resolve({ result: -1 });
+        console.error("[ERR] getMyOwnedApps(): \n", err);
+        mysqlConn.end();
+        return;
+      }
+      resolve({
+        result: JSON.parse(JSON.stringify(result))[0]
+      });
+      mysqlConn.end();
+    });
+  });
+};
+
+const getMyRegisteredApps = (params: { id: string }) => {
+  return new Promise<{ result: number | Object }>(resolve => {
+    const mysqlConn = MysqlBase.getInstance();
+    const { id } = params;
+
+    mysqlConn.query("call getRegisteredThirdApps(?);", [id], (err, result) => {
+      if (err) {
+        resolve({ result: -1 });
+        console.error("[ERR] getMyRegisteredApps(): \n", err);
+        mysqlConn.end();
+        return;
+      }
+      resolve({
+        result: JSON.parse(JSON.stringify(result))[0]
+      });
+      mysqlConn.end();
+    });
+  });
+};
+
 const updateFingerAuthAbility = (params: { id: string; fingerAuthAbility: boolean }) => {
   return new Promise<{ result: number }>(resolve => {
     const mysqlConn = MysqlBase.getInstance();
@@ -88,4 +128,4 @@ const changeUserMode = (params: { id: string; role: USER_ROLE_TYPE }) => {
   });
 };
 
-export { getMyData, updateFingerAuthAbility, changeUserMode, USER_ROLE_TYPE };
+export { getMyData, updateFingerAuthAbility, changeUserMode, getMyOwnedApps, getMyRegisteredApps, USER_ROLE_TYPE };

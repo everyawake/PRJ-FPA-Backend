@@ -4,10 +4,18 @@ import {
   getMyData,
   updateFingerAuthAbility,
   changeUserMode,
+  getMyOwnedApps,
+  getMyRegisteredApps
 } from "./myInformation";
 import { generateOTID, getUserIdByOTID } from "./otid";
-import { addThirdApp, regeneratePublicKey, approveToThirdApp, checkUserApproved, getThirdPartyInformation } from "./thirdParty";
-import emailConfirm from "./emailConfirm"
+import {
+  addThirdApp,
+  regeneratePublicKey,
+  approveToThirdApp,
+  checkUserApproved,
+  getThirdPartyInformation
+} from "./thirdParty";
+import emailConfirm from "./emailConfirm";
 
 export {
   signUp,
@@ -23,4 +31,6 @@ export {
   approveToThirdApp,
   checkUserApproved,
   getThirdPartyInformation,
+  getMyOwnedApps,
+  getMyRegisteredApps
 };

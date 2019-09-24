@@ -7,11 +7,11 @@ import {
   signIn,
   updateFingerAuthAbility,
   changeUserMode,
+  getMyOwnedApps,
+  getMyRegisteredApps
 } from "../database";
 import { sendWelcomeMail } from "../helpers/email/emailHelper";
-import fpaTokenMiddleware, {
-  fpaTokenSign,
-} from "../helpers/fpaTokenMiddleware";
+import fpaTokenMiddleware, { fpaTokenSign } from "../helpers/fpaTokenMiddleware";
 import { USER_ROLE_TYPE } from "../database/myInformation";
 
 const router = express.Router();
@@ -19,14 +19,14 @@ const router = express.Router();
 router.get("/:username/hello", (req, res) => {
   const username = req.params.username;
   res.json({
-    username: `Hello! nice to meet U!, ${username} :)`,
+    username: `Hello! nice to meet U!, ${username} :)`
   });
 });
 
 router.get("/:username", (req, res) => {
   const username = req.params.username;
   res.json({
-    username: `'${username}' Hello!`,
+    username: `'${username}' Hello!`
   });
 });
 
@@ -38,7 +38,7 @@ router.post(
     check("device_uuid").exists(),
     check("fcm_token").exists(),
     check("email").isEmail(),
-    check("password").isLength({ min: 4, max: 20 }),
+    check("password").isLength({ min: 4, max: 20 })
   ],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
@@ -61,10 +61,10 @@ router.post(
           role: 9999,
           fcm_token,
           confirmed: false,
-          fingerauth_enable: false,
+          fingerauth_enable: false
         });
         return res.status(201).json({
-          token: newToken,
+          token: newToken
         });
       }
 
@@ -72,7 +72,7 @@ router.post(
         return res.status(422).json(result);
       }
     }
-  },
+  }
 );
 
 router.post(
@@ -94,7 +94,7 @@ router.post(
         const newToken = fpaTokenSign(newObject);
         return res.status(200).json({
           token: newToken,
-          data: newObject,
+          data: newObject
         });
       }
 
@@ -102,7 +102,7 @@ router.post(
         return res.status(422).json(result);
       }
     }
-  },
+  }
 );
 
 router.put(
@@ -112,7 +112,7 @@ router.put(
     check("featureAbility")
       .exists()
       .isBoolean(),
-    check("userTokenData").exists(),
+    check("userTokenData").exists()
   ],
   async (req: express.Request, res: express.Response) => {
     const errors = validationResult(req);
@@ -125,7 +125,7 @@ router.put(
 
     const result = await updateFingerAuthAbility({
       id: uid,
-      fingerAuthAbility,
+      fingerAuthAbility
     });
 
     switch (result.result) {
@@ -137,7 +137,7 @@ router.put(
         return res.status(401).json({ result: "Couldn't update..." });
       }
     }
-  },
+  }
 );
 
 router.put(
@@ -153,7 +153,7 @@ router.put(
     const uid = req.body.userTokenData.data.id;
     const result = await changeUserMode({
       id: uid,
-      role: USER_ROLE_TYPE.THIRD_PARTY_DEVELOPER,
+      role: USER_ROLE_TYPE.THIRD_PARTY_DEVELOPER
     });
 
     switch (result.result) {
@@ -165,7 +165,7 @@ router.put(
         return res.status(401).json({ result: "Couldn't update..." });
       }
     }
-  },
+  }
 );
 
 router.put(
@@ -186,7 +186,7 @@ router.put(
 
     const result = await changeUserMode({
       id: uid,
-      role: USER_ROLE_TYPE.ADMIN,
+      role: USER_ROLE_TYPE.ADMIN
     });
 
     switch (result.result) {
@@ -198,7 +198,44 @@ router.put(
         return res.status(401).json({ result: "Couldn't update..." });
       }
     }
-  },
+  }
+);
+
+router.get(
+  "/my/owned-apps",
+  fpaTokenMiddleware,
+  [check("userTokenData").exists()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const uid = req.body.userTokenData.data.id;
+    const result = await getMyOwnedApps({
+      id: uid
+    });
+    return res.status(200).json({ result: result.result });
+  }
+);
+
+router.get(
+  "/my/register-apps",
+  fpaTokenMiddleware,
+  [check("userTokenData").exists()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    const uid = req.body.userTokenData.data.id;
+    const result = await getMyRegisteredApps({
+      id: uid
+    });
+
+    return res.status(200).json({ result: result.result });
+  }
 );
 
 export default router;

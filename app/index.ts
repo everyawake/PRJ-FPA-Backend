@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());
 
-io.on("connection", socket => {
+io.of("/fpa").on("connection", socket => {
   socket.on("fpa_channel_join", data => {
     console.log("!!!!!!! fpa join: ", data);
     const channelId = data.channelId;
@@ -36,7 +36,7 @@ io.on("connection", socket => {
 
 // initialize routes
 app.use((req, _res, next) => {
-  (req as any).io = clientIO(`http://localhost:${port}`);
+  (req as any).io = clientIO(`http://localhost:${port}/fpa`);
   next();
 });
 app.use("/users", UserRouter);

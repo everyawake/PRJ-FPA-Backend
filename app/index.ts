@@ -26,11 +26,13 @@ io.of("/fpa").on("connection", socket => {
   socket.on("fpa_channel_join", data => {
     console.log("!!!!!!! fpa join: ", data);
     const channelId = data.channelId;
-    socket.join(channelId);
+    socket.join(channelId, () => {
+      io.to(channelId).emit("fpa_channel_join", data);
+    });
   });
   socket.on("auth_send", msg => {
     console.log("!!!!!!!!!!!!!! auth_send", msg);
-    io.to(msg.channelId).emit("broadcast", msg.response);
+    io.to(msg.channelId).emit("auth_send", msg);
   });
 });
 

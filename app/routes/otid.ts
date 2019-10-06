@@ -1,7 +1,6 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
 
-
 import { generateOTID, getUserIdByOTID, checkUserApproved, getMyData, getThirdPartyInformation } from "../database";
 import fpaTokenMiddleware from "../helpers/fpaTokenMiddleware";
 import { pushAuthRequestMessage } from "../helpers/pushMessage";
@@ -19,46 +18,51 @@ router.post(
     }
 
     const result = await generateOTID({
-      id: req.body.userTokenData.data.id,
+      id: req.body.userTokenData.data.id
     });
 
     switch (result.result) {
       case 200: {
         return res.status(201).json({
-          result: result.data.otid,
+          result: result.data.otid
         });
       }
 
       case -1:
       default: {
         return res.status(400).json({
-          result: "Failed to generate OTID",
+          result: "Failed to generate OTID"
         });
       }
     }
-  },
+  }
 );
 
-router.post("/fpa-auth-send", fpaTokenMiddleware, [check("userTokenData").exists(), check("channelId").exists(), check("authStatus").exists()], async (req: express.Request, res: express.Response) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(422).json({ errors: errors.array() });
-  }
-
-  const { channelId, authStatus, } = req.body;
-
-  (req as any).io.emit("fpa_channel_join", {
-    channelId,
-  });
-  (req as any).io.emit("auth_send", {
-    channelId,
-    response: {
-      authStatus,
+router.post(
+  "/fpa-auth-send",
+  fpaTokenMiddleware,
+  [check("userTokenData").exists(), check("channelId").exists(), check("authStatus").exists()],
+  async (req: express.Request, res: express.Response) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-  });
 
-  return res.status(200).json("job_done");
-});
+    const { channelId, authStatus } = req.body;
+
+    (req as any).io.emit("fpa_channel_join", {
+      channelId
+    });
+    (req as any).io.emit("auth_send", {
+      channelId,
+      response: {
+        authStatus
+      }
+    });
+
+    return res.status(200).json("job_done");
+  }
+);
 
 router.post(
   "/:otid",
@@ -76,7 +80,7 @@ router.post(
         otid: req.params.otid
       }),
       getThirdPartyInformation({
-        publicKey,
+        publicKey
       })
     ]);
 
@@ -92,13 +96,10 @@ router.post(
       return res.status(404).json({ result: "Incorrect OTID" });
     }
 
-    const [
-      userApproved,
-      userDataResponse
-    ] = await Promise.all([
+    const [userApproved, userDataResponse] = await Promise.all([
       checkUserApproved({
         publicKey,
-        userId,
+        userId
       }),
       getMyData({ id: userId })
     ]);
@@ -111,7 +112,7 @@ router.post(
 
     switch (userApproved.result) {
       case 200: {
-        const thirdPartyName = (thirdPartyInfo as { result: 200, data: IThirdPartySimpleInformation }).data.name;
+        const thirdPartyName = (thirdPartyInfo as { result: 200; data: IThirdPartySimpleInformation }).data.name;
         const channelId = `${userApproved.token}_${Date.now()}`;
         const targetUserGCMToken = (userData as ITokenData).fcm_token;
         // send push message
@@ -119,14 +120,14 @@ router.post(
 
         return res.status(200).json({
           result: 200,
-          channelId,
+          channelId
         });
       }
       case 404:
       case -1:
       default: {
         return res.status(404).json({
-          result: "User can't found...",
+          result: "User can't found..."
         });
       }
     }
@@ -140,9 +141,7 @@ router.post(
      * 2-2, (지문인식실패) 지문인식 실패로인한 로그인 실패 안내
 
      */
-
-  },
+  }
 );
-
 
 export default router;

@@ -49,11 +49,11 @@ router.post(
     }
 
     const { channelId, authStatus } = req.body;
-
-    (req as any).io.emit("fpa_channel_join", {
+    const io: SocketIOClient.Socket = (req as any).io;
+    io.emit("fpa_channel_join", {
       channelId
     });
-    (req as any).io.emit("auth_send", {
+    io.emit("auth_send", {
       channelId,
       response: {
         authStatus

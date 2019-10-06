@@ -22,22 +22,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());
 
-
-io.of("/fpa").on("connection", (socket) => {
-  socket.on("fpa_channel_join", (data) => {
+io.on("connection", socket => {
+  socket.on("fpa_channel_join", data => {
     console.log("!!!!!!! fpa join: ", data);
     const channelId = data.channelId;
     socket.join(channelId);
   });
-  socket.on("auth_send", (msg) => {
-    console.log("!!!!!!!!!!!!!! auth_send", msg)
+  socket.on("auth_send", msg => {
+    console.log("!!!!!!!!!!!!!! auth_send", msg);
     io.to(msg.channelId).emit("broadcast", msg.response);
   });
 });
 
 // initialize routes
 app.use((req, _res, next) => {
-  (req as any).io = clientIO(`http://localhost:${port}/fpa`);
+  (req as any).io = clientIO(`http://localhost:${port}`);
   next();
 });
 app.use("/users", UserRouter);

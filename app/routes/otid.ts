@@ -57,8 +57,6 @@ router.post(
         userToken: thirdAppUserToken
       };
     }
-    console.log("@@@@@@@@@@@@ channelId> ", channelId);
-    console.log("@@@@@@@@@@@@ authStatus> ", authStatus);
 
     const io = (req as any).io;
     io.emit("fpa_channel_join", {

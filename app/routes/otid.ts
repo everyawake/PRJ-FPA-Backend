@@ -49,12 +49,24 @@ router.post(
     }
 
     const { channelId, authStatus } = req.body;
-    const io = (req as any).io;
+    const thirdAppUserToken = channelId.split("_")[0];
 
-    io.to(channelId).emit("auth_send", {
+    let returnData;
+    if (authStatus === "user-auth-done") {
+      returnData = {
+        userToken: thirdAppUserToken
+      };
+    }
+
+    const io = (req as any).io;
+    io.emit("fpa_channel_join", {
+      channelId
+    });
+    io.emit("auth_send", {
       channelId,
       response: {
-        authStatus
+        authStatus,
+        data: returnData
       }
     });
 

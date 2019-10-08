@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import compression from "compression";
 import http from "http";
 import socketIO from "socket.io";
+import clientIO from "socket.io-client";
 import cors from "cors";
 
 import UserRouter from "./routes/user";
@@ -30,6 +31,10 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(compression());
+app.use((req, _res, next) => {
+  (req as any).io = clientIO(`http://localhost:${port}/fpa`);
+  next();
+});
 
 // initialize routes
 app.use("/users", UserRouter);
@@ -40,8 +45,6 @@ app.use("/third-party", ThirdParty);
 app.get("/", (_req, res) => {
   res.send("hello world");
 });
-
-app.set("io", io);
 
 server.listen(port, () => {
   console.log("Server is now running at PORT: ", port);

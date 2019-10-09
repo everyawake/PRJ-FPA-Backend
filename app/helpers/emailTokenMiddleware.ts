@@ -6,15 +6,11 @@ if (!SIGN_KEY) {
   throw new Error("Should set FPA_EMAIL_VERIFY_KEY!!");
 }
 
-const emailTokenAuthenticator = (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction,
-) => {
-  const emailToken = req.params.token;
+const emailTokenAuthenticator = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const emailToken = req.query.token;
   if (!emailToken) {
     res.status(400).json({
-      result: "Need token",
+      result: "Need token"
     });
     return;
   }
@@ -27,7 +23,7 @@ const emailTokenAuthenticator = (
   } catch (err) {
     res.status(400).json({
       result: "Invalid token",
-      error: err,
+      error: err
     });
     return;
   }

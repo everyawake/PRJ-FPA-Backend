@@ -62,6 +62,8 @@ router.post(
     io.emit("fpa_channel_join", {
       channelId
     });
+    
+    // SDK가 기다리고 있는 채널에 유저의 지문인식 결과를 전송.
     io.emit("auth_send", {
       channelId,
       response: {

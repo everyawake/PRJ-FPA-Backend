@@ -4,7 +4,15 @@ FPA(FreePath Authenticator)
 
 [![Build Status](https://travis-ci.com/everyawake/PRJ-FPA-Backend.svg?branch=master)](https://travis-ci.com/everyawake/PRJ-FPA-Backend)
 
-# To-Do
+## Tech Stack
+Node.js base
+- Express.js
+- JsonWebToken
+- MySql2
+- socket.io with socket.io-client
+- Typescript
+- SendGrid for email transfer
+
 
 : EveryAwake!! with Slack
 
@@ -20,13 +28,13 @@ FPA(FreePath Authenticator)
 - [x] Change finger print
 - [ ] Update user info(Device id, developer mode, admin mode, etc)
 - [x] Generate new OTID
-- [ ] Find user id(OTID 로 회원정보를 찾음)
-- [ ] disconnect to Third-part app/web
+- [x] Find user id(OTID 로 회원정보를 찾음)
+- [x] disconnect to Third-part app/web
 
 ### FPA
 
-- [ ] 유저에게 지문 인증 요청
-- [ ] 서버와 Third-party에게 지문 인증 결과 전송
+- [x] 유저에게 지문 인증 요청
+- [x] 서버와 Third-party에게 지문 인증 결과 전송
 
 ### Board
 
@@ -37,8 +45,8 @@ FPA(FreePath Authenticator)
 - [x] Add new app/web
 - [x] Regenerate public key
 - [ ] Update Third-party info
-- [ ] Get user token
-- [ ] Connection this user(페북으로 로그인 사용시 정보 제공 동의 같은 기능)
+- [x] Get user token
+- [x] Connect this user(* User assent page, 페북으로 로그인 사용시 정보 제공 동의 같은 기능)
 
 ## Accessory
 

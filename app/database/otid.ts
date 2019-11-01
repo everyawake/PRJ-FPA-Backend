@@ -11,8 +11,9 @@ const generateOTID = (params: { id: string }) => {
     const mysqlConn = MysqlBase.getInstance();
     const { id } = params;
     const expiredAt = Date.now() / 1000 + 60; // Add 1minute
-    const otid = shortid().slice(0, 5);
+    const otid = shortid().slice(0, 5); // shortid로 부터 만들어지 문자열을 앞에서 5자 자르기
 
+    // 위에서 만든 otid를 db에 유저id랑 otid를 등록
     mysqlConn.query("call generate_otid(?, ?, ?);", [otid, id, expiredAt], (err, result) => {
       if (err) {
         resolve({ result: -1 });

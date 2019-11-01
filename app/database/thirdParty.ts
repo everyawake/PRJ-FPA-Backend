@@ -5,10 +5,13 @@ if (!process.env.KEY_GEN_SALT) {
   throw new Error("Need KEY_GEN_SALT!!");
 }
 
+// public & secret key 생성기
+// public_key = generateKey("<some value>", true);
+// secret_key = generateKey("<some value>");
 function generateKey(dataString: string, enableRandomByte: boolean = false) {
   try {
     const salt = enableRandomByte
-      ? crypto.randomBytes(64).toString("base64")
+      ? crypto.randomBytes(64).toString("base64") // 64자리 난수 생성 후 base64로 인코딩
       : process.env.KEY_GEN_SALT || "";
     const key = crypto.pbkdf2Sync(dataString, salt, 10000, 64, "sha512");
     return key.toString("base64");

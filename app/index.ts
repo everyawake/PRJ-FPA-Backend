@@ -18,10 +18,12 @@ const io = socketIO(server);
 
 io.of("/fpa").on("connection", socket => {
   socket.on("fpa_channel_join", data => {
+    // SDK가 서버로부터 받은 channelId의 챗방에 접속
     socket.join(data.channelId);
   });
 
   socket.on("auth_send", msg => {
+    // 유저가 지문인식후 결과을 전송 했을때 챗방에 재전송함
     socket.to(msg.channelId).emit("auth_send", msg);
   });
 });
@@ -46,6 +48,8 @@ app.get("/", (_req, res) => {
   res.send("hello world");
 });
 
+
+// server run
 server.listen(port, () => {
   console.log("Server is now running at PORT: ", port);
 });
